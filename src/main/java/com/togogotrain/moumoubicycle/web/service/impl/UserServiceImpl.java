@@ -26,12 +26,14 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    //获取用户openId
     @Override
     public String getUserOpenId(String code) {
         WxApi wxApi = new WxApi();
         return wxApi.getWxOpenId(code);
     }
 
+    //是否存在对应openid的用户
     @Override
     public boolean hasUser(String userOppenId) {
         UserExample userExample = new UserExample();
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
         return !userMapper.selectByExample(userExample).isEmpty();
     }
 
+    //根据openId获取用户
     @Override
     public User getUser(String userOppenId) {
         UserExample userExample = new UserExample();

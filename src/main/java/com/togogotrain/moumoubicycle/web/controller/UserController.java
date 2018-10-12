@@ -28,8 +28,11 @@ public class UserController {
 
     @RequestMapping(value = "/wxLogin", method = RequestMethod.GET)
     public Result<User> wxLogin(HttpSession httpSession , String code){
+        //调用userService的getUserOpenId方法，获取用户openId
         String userOppenId = userService.getUserOpenId(code);
+        //获取用户信息
         User user = userService.getUser(userOppenId);
+        //判断用户是否注册
         if (user!=null) {
             user.setWxopenid(null);
             user.setId(null);

@@ -23,27 +23,36 @@ public class WxApi {
     //小程序appid以及secret
     private final String appid = "wx2ef4abc66e701c0c";
     private final String secret = "fbbd3335e480004c8eaa65d3ca444d54";
+    //获取openId时需要的参数
     private final String grant_type = "authorization_code";
 
+    //用于发起http请求，传入url以及请求参数，获得响应数据(JsonNode)
     public JsonNode getWxApi(String url,MultiValueMap<String,String> param) {
+        //new RestTemplate类 用与发起http请求
         RestTemplate restTemplate = new RestTemplate();
+        //设置请求头部,(暂时不需设置)
         HttpHeaders headers = new HttpHeaders();
+        //拼接请求地址与请求参数的类builder
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(url).queryParams(param);
+        //创建Entity
         HttpEntity<String> entity = new HttpEntity<>(headers);
+        //获取响应entity
         HttpEntity<String> response = restTemplate.exchange(
-                builder.build().encode().toUri(),
-                HttpMethod.GET,
-                entity,
-                String.class);
-//        System.out.println(response.getBody());
+                builder.build().encode().toUri(),//创建请求url
+                HttpMethod.GET,//请求方法
+                entity,//请求entity
+                String.class);//响应返回类型
+        //创建ObjectMapper,用于获取返回的json数据
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES
                 , true);
         objectMapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES
                 , false);
+        //获取响应信息（String）
         String responseStr = response.getBody();
         try {
+            //转化为json数据
             JsonNode jsonNode = objectMapper
                     .readValue(responseStr, JsonNode.class);
             return jsonNode;
@@ -52,15 +61,24 @@ public class WxApi {
             return null;
         }
     }
+
+    /*获取微信OpeinId方法，按照微信小程序开发文档，需要传入code参数
+    * code参数来自微信小程序前端调用wx.login()接口返回
+    * code在后端向接口发起请求可获得用户的openId
+    * */
     public String getWxOpenId(String code){
+        //接口地址
         String url = "https://api.weixin.qq.com/sns/jscode2session";
+        //请求参数
         MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
         param.add("appid", appid);
         param.add("secret", secret);
         param.add("grant_type", grant_type);
         param.add("js_code",code);
+        //调用发起请求方法 ，获得json
         JsonNode jsonNode = getWxApi(url, param);
         if (jsonNode != null) {
+            //获取json 中的openid信息
             //一定要加asText()反则返回不为String 会有""
             String openid = jsonNode.get("openid").asText();
             if (openid != null) {

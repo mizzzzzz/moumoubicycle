@@ -8,9 +8,13 @@ package com.togogotrain.moumoubicycle.entity.format;
  * Time: 23:05
  */
 public class Result<T> {
+    //返回数据封装类
     private String status;
+    //请求响应状态码
     private String msg;
+    //响应信息提示
     private T data;
+    //返回数据
 
     public Result(String status, String msg, T data) {
         this.status = status;
