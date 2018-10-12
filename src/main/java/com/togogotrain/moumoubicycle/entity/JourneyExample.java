@@ -554,6 +554,66 @@ public class JourneyExample {
             addCriterion("cost not between", value1, value2, "cost");
             return (Criteria) this;
         }
+
+        public Criteria andHaspaidIsNull() {
+            addCriterion("haspaid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidIsNotNull() {
+            addCriterion("haspaid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidEqualTo(Boolean value) {
+            addCriterion("haspaid =", value, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidNotEqualTo(Boolean value) {
+            addCriterion("haspaid <>", value, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidGreaterThan(Boolean value) {
+            addCriterion("haspaid >", value, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("haspaid >=", value, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidLessThan(Boolean value) {
+            addCriterion("haspaid <", value, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidLessThanOrEqualTo(Boolean value) {
+            addCriterion("haspaid <=", value, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidIn(List<Boolean> values) {
+            addCriterion("haspaid in", values, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidNotIn(List<Boolean> values) {
+            addCriterion("haspaid not in", values, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidBetween(Boolean value1, Boolean value2) {
+            addCriterion("haspaid between", value1, value2, "haspaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andHaspaidNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("haspaid not between", value1, value2, "haspaid");
+            return (Criteria) this;
+        }
     }
 
     /**
