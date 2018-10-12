@@ -28,9 +28,10 @@ public class JourneyController {
 
     @RequestMapping(value = "/getJourneys",method = RequestMethod.GET)
     public Result<PageInfo<Journey>> getJourneys(
-            Long user_id
-            ,Integer pageNum
-            ,Integer pageSize) {
+            Long user_id//接收用户id
+            ,Integer pageNum//接收页码数
+            ,Integer pageSize) {//接收页面大小
+        //判断接收参数
         if (user_id == null || pageNum == null || pageSize == null) {
             return new Result<>(
                     "1001"
@@ -43,6 +44,6 @@ public class JourneyController {
                 "0000"
                 , "success"
                 , new PageInfo<>(journeyService
-                    .getJourneys(user, pageNum, pageSize)));
+                    .getJourneys(user, pageNum, pageSize)));//调用journeyService接口方法
     }
 }

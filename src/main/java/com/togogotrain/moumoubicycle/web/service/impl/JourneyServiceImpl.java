@@ -25,6 +25,7 @@ public class JourneyServiceImpl implements JourneyService {
     @Resource
     private JourneyMapper journeyMapper;
 
+    //获取用户的行程记录，并分页
     @Override
     public List<Journey> getJourneys(User user, int pageNum, int pageSize) {
         Long user_id = user.getId();
