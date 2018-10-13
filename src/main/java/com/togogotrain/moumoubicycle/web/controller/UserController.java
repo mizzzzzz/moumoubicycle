@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,7 +49,7 @@ public class UserController {
                             , null);
         }
     }
-    //充值
+    //mx充值
     @RequestMapping(value = "/recharge", method = RequestMethod.GET)
     public Result recharge(
             Float add_money,
@@ -60,7 +62,12 @@ public class UserController {
                     , "用户未登录"
                     , null);
         }
-
+        if (user.getHasdeposit()== false) {
+            return new Result<>(
+                    "1003"
+                    , "用户未缴纳押金"
+                    , null);
+        }
         if (add_money==null) {
             return new Result<>(
                     "1001"
@@ -69,13 +76,57 @@ public class UserController {
         }
         User re_user = new User();
         re_user.setId(user.getId());
-        re_user.setMoney(user.getMoney()+add_money);
-        System.out.println(re_user.getMoney());
+
+        User oldUser =userService.getUser(user.getWxopenid());
+
+        re_user.setMoney(oldUser.getMoney()+add_money);
         userService.updateUser(re_user);
         Float currentMoney = re_user.getMoney();
         return new Result<>(
                 "0000"
                 , "success"
                 , currentMoney);
+    }
+    //mx交押金
+    @RequestMapping(value = "/deposit", method = RequestMethod.GET)
+    public Result deposit(HttpSession session){
+        //判断接收参数
+        User user = (User) session.getAttribute("USER_SESSION");
+        if (user== null) {
+            return new Result<>(
+                    "1002"
+                    , "用户未登录"
+                    , null);
+        }
+        User re_user = new User();
+        re_user.setId(user.getId());
+
+        re_user.setHasdeposit(true);
+        userService.updateUser(re_user);
+        return new Result<>(
+                "0000"
+                , "success"
+                , true);
+    }
+    //mx查询用户详情
+    @RequestMapping(value = "/userDetails", method = RequestMethod.GET)
+    public Result<Map> userDetails(HttpSession session){
+        //判断接收参数
+        User user = (User) session.getAttribute("USER_SESSION");
+        if (user== null) {
+            return new Result<>(
+                    "1002"
+                    , "用户未登录"
+                    , null);
+        }
+        User oldUser =userService.getUser(user.getWxopenid());
+
+        Map<String, Object> userDetails = new HashMap<String, Object>();
+        userDetails.put("money",oldUser.getMoney());
+        userDetails.put("user.getHasdeposit()",oldUser.getHasdeposit());
+        return new Result<>(
+                "0000"
+                , "success"
+                , userDetails);
     }
 }

@@ -20,4 +20,5 @@ public interface UserService {
     public User getUser(String userOppenId);
 
     public int updateUser(User user);
+
 }

@@ -87,12 +87,12 @@ public class JourneyController {
         }
         Journey journey = journeyService.getJourneyById(journey_id);
         List locations = locationsService.getLocationsByJourney(journey);
-        Map<String, Object> details = new HashMap<String, Object>();
-        details.put("journey",journey);
-        details.put("locations",locations);
+        Map<String, Object> journeyDetails = new HashMap<String, Object>();
+        journeyDetails.put("journey",journey);
+        journeyDetails.put("locations",locations);
         return new Result<>(
                 "0000"
                 , "success"
-                , details);
+                , journeyDetails);
     }
 }
