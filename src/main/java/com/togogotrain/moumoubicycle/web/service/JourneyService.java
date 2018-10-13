@@ -16,5 +16,6 @@ import java.util.List;
 public interface JourneyService {
 
     public List<Journey> getJourneys(User user, int pageNum, int pageSize);
+    public Journey getJourneyById(long id);
 
 }
