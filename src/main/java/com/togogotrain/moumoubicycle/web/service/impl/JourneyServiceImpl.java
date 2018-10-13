@@ -42,6 +42,10 @@ public class JourneyServiceImpl implements JourneyService {
         JourneyExample journeyExample = new JourneyExample();
         JourneyExample.Criteria criteria = journeyExample.createCriteria();
         criteria.andIdEqualTo(Journey_id);
-        return journeyMapper.selectByExample(journeyExample).get(0);
+        if (journeyMapper.selectByExample(journeyExample).isEmpty()) {
+            return null;
+        } else {
+            return journeyMapper.selectByExample(journeyExample).get(0);
+        }
     }
 }

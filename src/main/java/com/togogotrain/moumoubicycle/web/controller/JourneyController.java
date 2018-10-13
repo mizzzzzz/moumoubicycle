@@ -64,7 +64,7 @@ public class JourneyController {
                     .getJourneys(user, pageNum, pageSize)));//调用journeyService接口方法
     }
 
-    //行程详细
+    //mx行程详细
     @RequestMapping(value = "/getJourneyById",method = RequestMethod.GET)
     public Result<Map> getJourneyById(
             Long journey_id,//接收行程id
@@ -72,7 +72,6 @@ public class JourneyController {
     ){
         //判断接收参数
         User user = (User) session.getAttribute("USER_SESSION");
-
         if (user== null) {
             return new Result<>(
                     "1002"

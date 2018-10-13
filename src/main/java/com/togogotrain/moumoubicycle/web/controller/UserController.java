@@ -35,7 +35,6 @@ public class UserController {
         //判断用户是否注册
         if (user!=null) {
             user.setWxopenid(null);
-            user.setId(null);
             httpSession.setAttribute("USER_SESSION", user);
             return new Result<User>(
                             "0000"
@@ -47,5 +46,36 @@ public class UserController {
                             , "user not register"
                             , null);
         }
+    }
+    //充值
+    @RequestMapping(value = "/recharge", method = RequestMethod.GET)
+    public Result recharge(
+            Float add_money,
+            HttpSession session)
+    {//判断接收参数
+        User user = (User) session.getAttribute("USER_SESSION");
+        if (user== null) {
+            return new Result<>(
+                    "1002"
+                    , "用户未登录"
+                    , null);
+        }
+
+        if (add_money==null) {
+            return new Result<>(
+                    "1001"
+                    , "参数错误"
+                    , null);
+        }
+        User re_user = new User();
+        re_user.setId(user.getId());
+        re_user.setMoney(user.getMoney()+add_money);
+        System.out.println(re_user.getMoney());
+        userService.updateUser(re_user);
+        Float currentMoney = re_user.getMoney();
+        return new Result<>(
+                "0000"
+                , "success"
+                , currentMoney);
     }
 }
