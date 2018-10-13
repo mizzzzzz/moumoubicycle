@@ -35,4 +35,13 @@ public class JourneyServiceImpl implements JourneyService {
         PageHelper.startPage(pageNum, pageSize);
         return  journeyMapper.selectByExample(journeyExample);
     }
+
+    //mx获取行程（通过Journey_id）
+    @Override
+    public Journey getJourneyById(long Journey_id){
+        JourneyExample journeyExample = new JourneyExample();
+        JourneyExample.Criteria criteria = journeyExample.createCriteria();
+        criteria.andIdEqualTo(Journey_id);
+        return journeyMapper.selectByExample(journeyExample).get(0);
+    }
 }
