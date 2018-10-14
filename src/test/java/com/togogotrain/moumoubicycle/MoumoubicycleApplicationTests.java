@@ -86,7 +86,7 @@ public class MoumoubicycleApplicationTests {
     public void logintest(){
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        criteria.andWxopenidEqualTo("oJGkc5OwOd3Qa1srBNuwUrRjzRrI");
+        criteria.andWxopenidEqualTo("");
         List<User> list = userMapper.selectByExample(userExample);
         System.out.println(list.toString());
     }
