@@ -36,8 +36,8 @@ public class UserController {
         User user = userService.getUser(userOppenId);
         //判断用户是否注册
         if (user!=null) {
-            user.setWxopenid(null);
             httpSession.setAttribute("USER_SESSION", user);
+            user.setWxopenid(null);//不传回前端，不想被别人拿到
             return new Result<User>(
                             "0000"
                             , "success"
@@ -100,7 +100,6 @@ public class UserController {
         }
         User re_user = new User();
         re_user.setId(user.getId());
-
         re_user.setHasdeposit(true);
         userService.updateUser(re_user);
         return new Result<>(
@@ -121,6 +120,13 @@ public class UserController {
         }
         User oldUser =userService.getUser(user.getWxopenid());
 
+        if(oldUser==null){
+            return new Result<>(
+                    "2001"
+                    , "user not register"
+                    , null);
+        }
+
         Map<String, Object> userDetails = new HashMap<String, Object>();
         userDetails.put("money",oldUser.getMoney());
         userDetails.put("user.getHasdeposit()",oldUser.getHasdeposit());
@@ -128,5 +134,39 @@ public class UserController {
                 "0000"
                 , "success"
                 , userDetails);
+    }
+    //mx注册
+    @RequestMapping(value = "/userRegister", method = RequestMethod.GET)
+    public Result userRegister(
+            String phone,
+            HttpSession session
+    ){
+        //参数错误
+        if (phone==null) {
+            return new Result<>(
+                    "1001"
+                    , "参数错误"
+                    , null);
+        }
+
+        User user = (User) session.getAttribute("USER_SESSION");
+
+        User oldUser =userService.getUser(user.getWxopenid());
+        //是否注册
+        if(oldUser!=null){
+            return new Result(
+                    "2002"
+                    , "user existence"
+                    , null);
+        }else {
+            User re_user = new User();
+            re_user.setWxopenid(user.getWxopenid());
+            re_user.setPhone(phone);
+            userService.addUser(re_user);
+            return new Result(
+                    "0000"
+                    , "success"
+                    , true);
+        }
     }
 }
