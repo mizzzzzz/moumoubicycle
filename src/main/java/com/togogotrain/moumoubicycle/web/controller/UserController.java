@@ -49,13 +49,18 @@ public class UserController {
                             , null);
         }
     }
-    //mx充值
+    //！mx充值页面跳转
+    @RequestMapping(value = "/toRechargePage", method = RequestMethod.GET)
+    public String toRechargePage(){
+        return "toRechargePage";
+    }
+    //！mx充值操作
     @RequestMapping(value = "/recharge", method = RequestMethod.GET)
     public Result recharge(
             Float add_money,
-            HttpSession session)
+            HttpSession httpSession)
     {//判断接收参数
-        User user = (User) session.getAttribute("USER_SESSION");
+        User user = (User) httpSession.getAttribute("USER_SESSION");
         if (user== null) {
             return new Result<>(
                     "1002"
@@ -81,17 +86,26 @@ public class UserController {
 
         re_user.setMoney(oldUser.getMoney()+add_money);
         userService.updateUser(re_user);
-        Float currentMoney = re_user.getMoney();
+
+        User newUser = userService.getUser(user.getWxopenid());
+        httpSession.setAttribute("USER_SESSION", newUser);//更新httpSession
+        Float currentMoney = newUser.getMoney();
+
         return new Result<>(
                 "0000"
                 , "success"
                 , currentMoney);
     }
-    //mx交押金
+    //！mx充值页面跳转
+    @RequestMapping(value = "/toDepositPage", method = RequestMethod.GET)
+    public String toDepositPage(){
+        return "toDepositPage";
+    }
+    //！mx缴纳押金操作
     @RequestMapping(value = "/deposit", method = RequestMethod.GET)
-    public Result deposit(HttpSession session){
+    public Result deposit(HttpSession httpSession){
         //判断接收参数
-        User user = (User) session.getAttribute("USER_SESSION");
+        User user = (User) httpSession.getAttribute("USER_SESSION");
         if (user== null) {
             return new Result<>(
                     "1002"
@@ -102,16 +116,20 @@ public class UserController {
         re_user.setId(user.getId());
         re_user.setHasdeposit(true);
         userService.updateUser(re_user);
+
+        User newUser = userService.getUser(user.getWxopenid());
+        httpSession.setAttribute("USER_SESSION", newUser);//更新httpSession
+
         return new Result<>(
                 "0000"
                 , "success"
                 , true);
     }
-    //mx查询用户详情
+    //！mx查询用户信息（详情）
     @RequestMapping(value = "/userDetails", method = RequestMethod.GET)
-    public Result<Map> userDetails(HttpSession session){
+    public Result<Map> userDetails(HttpSession httpSession){
         //判断接收参数
-        User user = (User) session.getAttribute("USER_SESSION");
+        User user = (User) httpSession.getAttribute("USER_SESSION");
         if (user== null) {
             return new Result<>(
                     "1002"
@@ -135,7 +153,12 @@ public class UserController {
                 , "success"
                 , userDetails);
     }
-    //mx注册
+    //！mx注册页面跳转
+    @RequestMapping(value = "/toUserRegisterPage", method = RequestMethod.GET)
+    public String toUserRegisterPage(){
+        return "toUserRegisterPage";
+    }
+    //！mx注册操作
     @RequestMapping(value = "/userRegister", method = RequestMethod.GET)
     public Result userRegister(
             String phone,
@@ -163,10 +186,13 @@ public class UserController {
             re_user.setWxopenid(user.getWxopenid());
             re_user.setPhone(phone);
             userService.addUser(re_user);
+
+            User newUser = userService.getUser(user.getWxopenid());
+            session.setAttribute("USER_SESSION", re_user);//更新httpSession
             return new Result(
                     "0000"
                     , "success"
-                    , true);
+                    , newUser);
         }
     }
 }
