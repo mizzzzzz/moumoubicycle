@@ -15,9 +15,13 @@ import java.util.List;
 public interface UserService {
     public String getUserOpenId(String code);
 
-    public boolean hasUser(String userOppenId);
+    public boolean hasUser(String userOppenId);//是否有这个用户
 
-    public User getUser(String userOppenId);
+    public User getUser(String userOppenId);//获得该用户
 
-    public int updateUser(User user);
+    public int updateUser(User user);//改
+
+    public int addUser(User user);//增
+
+    public int delUser(long id);//删
 }

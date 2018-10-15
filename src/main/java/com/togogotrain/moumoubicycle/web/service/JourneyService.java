@@ -16,6 +16,9 @@ import java.util.List;
 public interface JourneyService {
 
     public List<Journey> getJourneys(User user, int pageNum, int pageSize);
-    public Journey getJourneyById(long id);
+    public Journey getJourneyById(long id);//查
+    public int updateJourney(Journey journey);//改
+    public int addJourney(Journey journey);//增
+    public int delJourney(long id);//删
 
 }

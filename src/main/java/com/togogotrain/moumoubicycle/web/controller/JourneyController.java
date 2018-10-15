@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.togogotrain.moumoubicycle.entity.Journey;
 import com.togogotrain.moumoubicycle.entity.Locations;
 import com.togogotrain.moumoubicycle.entity.User;
+import com.togogotrain.moumoubicycle.entity.format.JourneyDetails;
 import com.togogotrain.moumoubicycle.entity.format.Result;
 import com.togogotrain.moumoubicycle.web.service.JourneyService;
 import com.togogotrain.moumoubicycle.web.service.LocationsService;
@@ -64,9 +65,9 @@ public class JourneyController {
                     .getJourneys(user, pageNum, pageSize)));//调用journeyService接口方法
     }
 
-    //mx行程详细
+    //!mx行程详细
     @RequestMapping(value = "/getJourneyById",method = RequestMethod.GET)
-    public Result<Map> getJourneyById(
+    public Result<JourneyDetails> getJourneyById(
             Long journey_id,//接收行程id
             HttpSession session
     ){
@@ -87,12 +88,11 @@ public class JourneyController {
         }
         Journey journey = journeyService.getJourneyById(journey_id);
         List locations = locationsService.getLocationsByJourney(journey);
-        Map<String, Object> details = new HashMap<String, Object>();
-        details.put("journey",journey);
-        details.put("locations",locations);
-        return new Result<>(
+        JourneyDetails journeyDetails = new JourneyDetails(journey,locations);
+
+        return new Result<JourneyDetails>(
                 "0000"
                 , "success"
-                , details);
+                , journeyDetails);
     }
 }
