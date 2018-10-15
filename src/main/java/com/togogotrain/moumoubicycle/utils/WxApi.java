@@ -21,8 +21,8 @@ import java.io.IOException;
  */
 public class WxApi {
     //小程序appid以及secret
-    private final String appid = "";
-    private final String secret = "";
+    private final String appid = "wx2ef4abc66e701c0c";
+    private final String secret = "fbbd3335e480004c8eaa65d3ca444d54";
     //获取openId时需要的参数
     private final String grant_type = "authorization_code";
 
@@ -80,6 +80,7 @@ public class WxApi {
         if (jsonNode != null) {
             //获取json 中的openid信息
             //一定要加asText()反则返回不为String 会有""
+            System.out.println(jsonNode.toString());
             String openid = jsonNode.get("openid").asText();
             if (openid != null) {
                 return openid;
