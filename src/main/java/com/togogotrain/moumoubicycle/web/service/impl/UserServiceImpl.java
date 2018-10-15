@@ -66,5 +66,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.insertSelective(user);
     }
 
+    @Override
+    public int delUser(long id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
 
 }

@@ -48,4 +48,19 @@ public class JourneyServiceImpl implements JourneyService {
             return journeyMapper.selectByExample(journeyExample).get(0);
         }
     }
+
+    @Override
+    public int updateJourney(Journey journey) {
+        return journeyMapper.updateByPrimaryKeySelective(journey);
+    }
+
+    @Override
+    public int addJourney(Journey journey) {
+        return journeyMapper.insertSelective(journey);
+    }
+
+    @Override
+    public int delJourney(long id) {
+        return journeyMapper.deleteByPrimaryKey(id);
+    }
 }

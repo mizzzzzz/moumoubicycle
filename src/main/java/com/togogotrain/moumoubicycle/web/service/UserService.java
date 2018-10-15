@@ -22,4 +22,6 @@ public interface UserService {
     public int updateUser(User user);//改
 
     public int addUser(User user);//增
+
+    public int delUser(long id);//删
 }
