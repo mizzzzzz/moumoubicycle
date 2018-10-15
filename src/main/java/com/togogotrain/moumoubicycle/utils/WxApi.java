@@ -80,6 +80,7 @@ public class WxApi {
         if (jsonNode != null) {
             //获取json 中的openid信息
             //一定要加asText()反则返回不为String 会有""
+            System.out.println(jsonNode.toString());
             String openid = jsonNode.get("openid").asText();
             if (openid != null) {
                 return openid;

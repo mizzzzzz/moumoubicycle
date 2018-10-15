@@ -52,5 +52,7 @@
                enableUpdateByExample="true"/>
         <table tableName="locations" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true"/>
+        <table tableName="admin" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>
